@@ -1,11 +1,11 @@
 import { useRef, useEffect, useState } from "react";
 import type {ImgHTMLAttributes} from "react";
 
-type LazyImageProps = { src: string };
+type LazyImageProps = { src: string, onLazyLoad:(img:HTMLImageElement)=>void };
 type ImageNative = ImgHTMLAttributes<HTMLImageElement>;
 type Props = LazyImageProps & ImageNative;
 
-const LazyImage = ({ src, ...imgProps }: Props): JSX.Element => {
+const LazyImage = ({ src, onLazyLoad, ...imgProps }: Props): JSX.Element => {
   const node = useRef<HTMLImageElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const [currentSrc, setCurrentSrc] = useState(
@@ -19,16 +19,22 @@ const LazyImage = ({ src, ...imgProps }: Props): JSX.Element => {
           console.log("hey you!");
           setCurrentSrc(src);
           observerRef.current?.disconnect(); // Desconectar el IntersectionObserver después de la primera entrada
+          const img = node.current;
+          if (img) {
+            img.onload = () => {
+              onLazyLoad(img);
+            }
+          }
         }
       });
     });
 
     observerRef.current = observer; // Guardar la instancia del IntersectionObserver
-
     if (node.current) {
+     
       observer.observe(node.current);
+      
     }
-
     return () => {
       if (observerRef.current) {
         observerRef.current.disconnect(); // Desconectar el IntersectionObserver en el desmontaje del componente

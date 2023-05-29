@@ -27,7 +27,10 @@ export default function Home() {
       <button onClick={addNewFox}>Add new fox</button>
       {images.map(image => 
         <div key={image.id}>
-          <LazyImage src={image.url} title={'random-fox'} onClick={()=> console.log('uwu')}/>
+          <LazyImage src={image.url} title={'random-fox'} 
+          onClick={()=> console.log('uwu')} 
+          onLazyLoad={(node:HTMLImageElement)=>console.log(node)}
+          />
         </div>)
       }
     </main>
