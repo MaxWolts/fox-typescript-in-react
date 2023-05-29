@@ -1,9 +1,6 @@
 import { useRef, useEffect, useState } from "react";
-import type {ImgHTMLAttributes} from "react";
 
-type LazyImageProps = { src: string, onLazyLoad:(img:HTMLImageElement)=>void };
-type ImageNative = ImgHTMLAttributes<HTMLImageElement>;
-type Props = LazyImageProps & ImageNative;
+type Props = ILazyImageProps & IImageNative;
 
 const LazyImage = ({ src, onLazyLoad, ...imgProps }: Props): JSX.Element => {
   const node = useRef<HTMLImageElement>(null);

@@ -6,18 +6,13 @@ const random = () => Math.floor(Math.random() * 123) + 1;
 //generate simple unique id
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
-type ImageItem = {
-  id: string,
-  url: string
-}
-
 export default function Home() {
-  const [images, setImages] = useState<ImageItem[]>([]);
+  const [images, setImages] = useState<IImageItem[]>([]);
 
   const addNewFox: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.preventDefault();
 
-    const newImageItem: ImageItem = {id: `${generateId()}`, url: `https://randomfox.ca/images/${random()}.jpg`}
+    const newImageItem: IImageItem = {id: `${generateId()}`, url: `https://randomfox.ca/images/${random()}.jpg`}
     setImages([...images, newImageItem]);
   }
 
